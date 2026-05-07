@@ -110,11 +110,11 @@ export default function TestPage({ params }: { params: Promise<{ id: string }> }
             let badgeCls = "bg-[var(--background)] text-muted";
             if (isSubmitted) {
               if (isCorrect) {
-                cls = "border-success bg-success text-white";
-                badgeCls = "bg-white/20 text-white";
+                cls = "border-success bg-emerald-50/70 text-emerald-900";
+                badgeCls = "bg-success text-white";
               } else if (isPicked) {
-                cls = "border-danger bg-danger text-white";
-                badgeCls = "bg-white/20 text-white";
+                cls = "border-danger bg-rose-50/70 text-rose-900";
+                badgeCls = "bg-danger text-white";
               } else {
                 cls = "border-[var(--border)] opacity-60";
               }
