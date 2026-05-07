@@ -10,6 +10,26 @@ type TutorMessage = {
   text: string;
 };
 
+function LumiBlob({ className = "h-10 w-10" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 96 96" role="img" aria-label="Lumi mascot">
+      <path
+        d="M17 52c-4-24 13-40 33-39 19 1 32 14 31 34-1 23-16 36-38 35-16-1-24-12-26-30z"
+        fill="#eef0ff"
+      />
+      <path
+        d="M24 53c-3-18 10-30 25-29 15 1 24 10 23 25-1 17-12 26-29 25-11-1-18-8-19-21z"
+        fill="#5b6cff"
+        opacity="0.14"
+      />
+      <circle cx="39" cy="45" r="4" fill="#5b6cff" />
+      <circle cx="58" cy="45" r="4" fill="#5b6cff" />
+      <path d="M38 58c6 5 15 5 21 0" fill="none" stroke="#5b6cff" strokeWidth="5" strokeLinecap="round" />
+      <path d="M70 24l6-8M76 30l10-3" fill="none" stroke="#22c55e" strokeWidth="5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function TutorPage() {
   const [active, setActive] = useState(0);
   const [messages, setMessages] = useState<TutorMessage[]>([]);
@@ -132,7 +152,7 @@ export default function TutorPage() {
 
         <Card className="col-span-12 lg:col-span-4 flex min-h-[620px] flex-col">
           <div className="flex items-center gap-3 pb-5 border-b border-[var(--border)]">
-            <div className="w-10 h-10 rounded-full bg-brand-soft text-brand grid place-items-center font-semibold">L</div>
+            <LumiBlob />
             <div>
               <div className="font-semibold text-sm">Lumi</div>
               <div className="text-xs text-muted flex items-center gap-1.5">
@@ -142,6 +162,15 @@ export default function TutorPage() {
           </div>
 
           <div className="min-h-[360px] flex-1 py-5 space-y-3 overflow-y-auto">
+            {messages.length === 0 && !sending && (
+              <div className="flex min-h-[320px] flex-col items-center justify-center px-5 text-center">
+                <LumiBlob className="mb-4 h-20 w-20" />
+                <div className="font-semibold">Hi, I&apos;m Lumi.</div>
+                <p className="mt-2 max-w-[260px] text-sm leading-relaxed text-muted">
+                  Send me a missed question, ask for a quick drill, or tell me what feels shaky today.
+                </p>
+              </div>
+            )}
             {messages.map((m, i) => (
               <div
                 key={i}
