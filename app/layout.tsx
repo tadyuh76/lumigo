@@ -6,7 +6,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lumist — Smart SAT Prep",
+  title: "Lumigo — Smart SAT Prep",
   description: "Practice tests, AI tutor, and personalized analytics for the SAT.",
 };
 

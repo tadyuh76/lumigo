@@ -45,7 +45,7 @@ export function Sidebar() {
     <aside className="w-64 shrink-0 bg-card border-r border-[var(--border)] flex flex-col h-screen sticky top-0">
       <div className="px-6 py-6 flex items-center gap-2">
         <div className="w-8 h-8 rounded-lg bg-brand grid place-items-center text-white font-bold">L</div>
-        <div className="text-lg font-semibold tracking-tight">Lumist</div>
+        <div className="text-lg font-semibold tracking-tight">Lumigo</div>
       </div>
 
       <nav className="flex-1 px-3 py-2 space-y-1">
