@@ -107,11 +107,21 @@ export default function TestPage({ params }: { params: Promise<{ id: string }> }
             const isPicked = picked === i;
             const isCorrect = i === q.correct;
             let cls = "border-[var(--border)] hover:border-brand";
+            let badgeCls = "bg-[var(--background)] text-muted";
             if (isSubmitted) {
-              if (isCorrect) cls = "border-success bg-emerald-50/50";
-              else if (isPicked) cls = "border-danger bg-rose-50/50";
-              else cls = "border-[var(--border)] opacity-60";
-            } else if (isPicked) cls = "border-brand bg-brand-soft";
+              if (isCorrect) {
+                cls = "border-success bg-success text-white";
+                badgeCls = "bg-white/20 text-white";
+              } else if (isPicked) {
+                cls = "border-danger bg-danger text-white";
+                badgeCls = "bg-white/20 text-white";
+              } else {
+                cls = "border-[var(--border)] opacity-60";
+              }
+            } else if (isPicked) {
+              cls = "border-brand bg-brand-soft";
+              badgeCls = "bg-brand text-white";
+            }
 
             return (
               <button
@@ -120,7 +130,7 @@ export default function TestPage({ params }: { params: Promise<{ id: string }> }
                 disabled={isSubmitted}
                 className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl border transition ${cls}`}
               >
-                <span className={`w-7 h-7 rounded-full grid place-items-center text-xs font-semibold ${isPicked ? "bg-brand text-white" : "bg-[var(--background)] text-muted"}`}>
+                <span className={`w-7 h-7 rounded-full grid place-items-center text-xs font-semibold ${badgeCls}`}>
                   {String.fromCharCode(65 + i)}
                 </span>
                 <span className="text-sm flex-1"><Md>{c}</Md></span>
