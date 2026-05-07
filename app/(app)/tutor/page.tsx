@@ -1,29 +1,61 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Topbar } from "@/components/Topbar";
 import { Card } from "@/components/Card";
-import { STUDY_PLAN, TUTOR_MESSAGES } from "@/lib/data";
+import { Md } from "@/components/Md";
+import { STUDY_PLAN } from "@/lib/data";
+
+type TutorMessage = {
+  role: "user" | "tutor";
+  text: string;
+};
 
 export default function TutorPage() {
   const [active, setActive] = useState(0);
-  const [messages, setMessages] = useState(TUTOR_MESSAGES);
+  const [messages, setMessages] = useState<TutorMessage[]>([]);
   const [draft, setDraft] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
   const day = STUDY_PLAN[active];
   const totalMinutes = STUDY_PLAN.reduce((s, d) => s + d.minutes, 0);
 
-  const send = () => {
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+  }, [messages, sending]);
+
+  const send = async () => {
     const text = draft.trim();
-    if (!text) return;
-    setMessages((m) => [
-      ...m,
-      { role: "user", text },
-      {
-        role: "tutor",
-        text:
-          "Got it — I've added that to your queue. I'll adjust this week's plan based on your next session results.",
-      },
-    ]);
+    if (!text || sending) return;
+
+    const nextMessages: TutorMessage[] = [...messages, { role: "user", text }];
+    setMessages(nextMessages);
     setDraft("");
+    setError("");
+    setSending(true);
+
+    try {
+      const response = await fetch("/api/tutor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: nextMessages }),
+      });
+      const data = (await response.json().catch(() => ({}))) as { reply?: string; error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Lumi could not reach the AI service.");
+      }
+
+      if (!data.reply?.trim()) {
+        throw new Error("Lumi returned an empty response.");
+      }
+
+      setMessages([...nextMessages, { role: "tutor", text: data.reply.trim() }]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Lumi could not reach the AI service.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -35,7 +67,7 @@ export default function TutorPage() {
           <Card>
             <div className="flex items-center justify-between mb-5">
               <div>
-                <div className="font-semibold">This week's plan</div>
+                <div className="font-semibold">This week&apos;s plan</div>
                 <div className="text-xs text-muted">
                   {totalMinutes} minutes scheduled · auto-balanced for your weak areas
                 </div>
@@ -93,7 +125,7 @@ export default function TutorPage() {
             <p className="text-sm text-muted leading-relaxed">
               Lumi noticed your accuracy on geometry questions dropped 8% last week, while your reading
               comprehension improved. Tuesday and Wednesday are weighted toward your weak topics, with a
-              lighter Thursday so you're fresh for Saturday's full-length test.
+              lighter Thursday so you&apos;re fresh for Saturday&apos;s full-length test.
             </p>
           </Card>
         </div>
@@ -119,25 +151,50 @@ export default function TutorPage() {
                     : "bg-brand text-white ml-auto"
                 }`}
               >
-                {m.text}
+                {m.role === "tutor" ? (
+                  <Md inline={false}>{m.text}</Md>
+                ) : (
+                  <span className="whitespace-pre-wrap">{m.text}</span>
+                )}
               </div>
             ))}
+            {sending && (
+              <div className="text-sm leading-relaxed rounded-2xl px-4 py-2.5 max-w-[85%] bg-[var(--background)] text-muted">
+                Lumi is thinking...
+              </div>
+            )}
+            <div ref={scrollRef} />
           </div>
 
-          <div className="pt-3 border-t border-[var(--border)]">
+          <form
+            className="pt-3 border-t border-[var(--border)]"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void send();
+            }}
+          >
+            {error && (
+              <div className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                {error}
+              </div>
+            )}
             <div className="flex items-center gap-2 bg-[var(--background)] rounded-full px-4 py-2">
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
                 placeholder="Ask Lumi anything…"
                 className="flex-1 bg-transparent text-sm outline-none"
+                disabled={sending}
               />
-              <button onClick={send} className="w-8 h-8 rounded-full bg-brand text-white grid place-items-center disabled:opacity-40" disabled={!draft.trim()}>
+              <button
+                type="submit"
+                className="w-8 h-8 rounded-full bg-brand text-white grid place-items-center disabled:opacity-40"
+                disabled={!draft.trim() || sending}
+              >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13" /><path d="M22 2l-7 20-4-9-9-4z" /></svg>
               </button>
             </div>
-          </div>
+          </form>
         </Card>
       </div>
     </>

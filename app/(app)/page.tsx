@@ -15,10 +15,10 @@ export default function Dashboard() {
       <div className="grid grid-cols-12 gap-6">
         <Card className="col-span-12 lg:col-span-8 bg-brand text-white border-0">
           <div className="max-w-md">
-            <div className="text-xs uppercase tracking-wider opacity-80 mb-2">Today's focus</div>
+            <div className="text-xs uppercase tracking-wider opacity-80 mb-2">Today&apos;s focus</div>
             <h2 className="text-2xl font-semibold mb-2">{today.focus}</h2>
             <p className="text-white/80 text-sm mb-6">
-              {today.minutes}-minute session, {today.tasks.length} tasks. You're on a {USER.streak}-day streak.
+              {today.minutes}-minute session, {today.tasks.length} tasks. You&apos;re on a {USER.streak}-day streak.
             </p>
             <Link
               href="/practice"
@@ -74,7 +74,7 @@ export default function Dashboard() {
 
         <Card className="col-span-12 lg:col-span-4">
           <div className="flex items-center justify-between mb-4">
-            <div className="font-semibold">Today's tasks</div>
+            <div className="font-semibold">Today&apos;s tasks</div>
             <Link href="/tutor" className="text-xs text-brand font-medium">View plan</Link>
           </div>
           <ul className="space-y-3">

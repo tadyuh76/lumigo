@@ -57,7 +57,7 @@ export default function ProfilePage() {
 
         <Card className="col-span-12 lg:col-span-7">
           <div className="font-semibold mb-1">Mastery by skill</div>
-          <div className="text-xs text-muted mb-5">Where you're strong, and what's next</div>
+          <div className="text-xs text-muted mb-5">Where you&apos;re strong, and what&apos;s next</div>
           <div className="space-y-3">
             {SKILL_BREAKDOWN.map((s) => (
               <div key={s.name}>
