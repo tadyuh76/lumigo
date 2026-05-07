@@ -130,8 +130,8 @@ export default function TutorPage() {
           </Card>
         </div>
 
-        <Card className="col-span-12 lg:col-span-4 flex flex-col">
-          <div className="flex items-center gap-3 pb-4 border-b border-[var(--border)]">
+        <Card className="col-span-12 lg:col-span-4 flex min-h-[620px] flex-col">
+          <div className="flex items-center gap-3 pb-5 border-b border-[var(--border)]">
             <div className="w-10 h-10 rounded-full bg-brand-soft text-brand grid place-items-center font-semibold">L</div>
             <div>
               <div className="font-semibold text-sm">Lumi</div>
@@ -141,7 +141,7 @@ export default function TutorPage() {
             </div>
           </div>
 
-          <div className="flex-1 py-4 space-y-3 overflow-y-auto max-h-[420px]">
+          <div className="min-h-[360px] flex-1 py-5 space-y-3 overflow-y-auto">
             {messages.map((m, i) => (
               <div
                 key={i}
@@ -167,7 +167,7 @@ export default function TutorPage() {
           </div>
 
           <form
-            className="pt-3 border-t border-[var(--border)]"
+            className="pt-5 border-t border-[var(--border)]"
             onSubmit={(event) => {
               event.preventDefault();
               void send();

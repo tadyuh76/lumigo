@@ -44,7 +44,11 @@ export function Sidebar() {
   return (
     <aside className="w-64 shrink-0 bg-card border-r border-[var(--border)] flex flex-col h-screen sticky top-0">
       <div className="px-6 py-6 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-brand grid place-items-center text-white font-bold">L</div>
+        <span
+          aria-hidden="true"
+          className="block h-8 w-8 rounded-lg bg-contain bg-center bg-no-repeat shadow-sm"
+          style={{ backgroundImage: "url('/lumigo-logo.svg')" }}
+        />
         <div className="text-lg font-semibold tracking-tight">Lumigo</div>
       </div>
 

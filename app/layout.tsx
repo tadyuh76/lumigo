@@ -6,8 +6,27 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lumigo — Smart SAT Prep",
-  description: "Practice tests, AI tutor, and personalized analytics for the SAT.",
+  applicationName: "Lumigo",
+  title: {
+    default: "Lumigo — Smart SAT Prep",
+    template: "%s | Lumigo",
+  },
+  description:
+    "Lumigo combines SAT practice tests, an AI tutor, and personalized analytics to help students study smarter.",
+  keywords: ["Lumigo", "SAT prep", "AI tutor", "practice tests", "personalized analytics"],
+  openGraph: {
+    title: "Lumigo — Smart SAT Prep",
+    description:
+      "SAT practice tests, AI tutoring, and personalized analytics for focused study.",
+    siteName: "Lumigo",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Lumigo — Smart SAT Prep",
+    description:
+      "SAT practice tests, AI tutoring, and personalized analytics for focused study.",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
